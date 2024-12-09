@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sports Stats Scraper</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      margin: 10px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <button id="scrapeButton">Scrape Data</button>
+  <button id="downloadCsvButton">Download CSV</button>
+  <div id="results">
+    <table id="statsTable">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>vs</th>
+          <th>Position</th>
+          <th>Player</th>
+          <th>Time</th>
+          <th>Line</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody id="statsBody">
+      </tbody>
+    </table>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
