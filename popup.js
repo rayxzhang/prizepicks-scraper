@@ -1,4 +1,7 @@
-let responseData = [];
+let responseData = {
+  league: '',
+  stats: []
+};
 
 document.getElementById('scrapeButton').addEventListener('click', async () => {
   try {
@@ -37,7 +40,7 @@ document.getElementById('scrapeButton').addEventListener('click', async () => {
 
       tbody.innerHTML = '';
       
-      response.forEach(stat => {
+      response.stats.forEach(stat => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${stat?.team || 'N/A'}</td>
@@ -59,8 +62,7 @@ document.getElementById('scrapeButton').addEventListener('click', async () => {
 document.getElementById('downloadCsvButton').addEventListener('click', () => {
   const rows = [['Team', 'vs', 'Position', 'Player', 'Time', 'Line', 'Category']];
   
-  // Assuming `response` is the array of stats
-  responseData.forEach(stat => {
+  responseData.stats.forEach(stat => {
     rows.push([
       stat?.team || 'N/A',
       stat?.opponent || 'N/A',
@@ -77,7 +79,11 @@ document.getElementById('downloadCsvButton').addEventListener('click', () => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'stats.csv');
+  
+  const timestamp = new Date().toISOString().split('T')[0];
+  const filename = `${responseData.league}_stats_${timestamp}.csv`;
+  link.setAttribute('download', filename);
+  
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();

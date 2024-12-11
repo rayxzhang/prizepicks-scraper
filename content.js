@@ -2,6 +2,7 @@ function scrapeStats() {
   try {
     const stats = [];
     const playerCards = document.querySelectorAll(PLAYER_CARD_SELECTOR);
+    const selectedLeague = getSelectedLeague();
     
     console.log('Found player cards:', playerCards.length); // Debug log
 
@@ -33,10 +34,16 @@ function scrapeStats() {
     });
 
     console.log('Scraped stats:', stats); // Debug log
-    return stats;
+    return {
+      league: selectedLeague,
+      stats: stats
+    };
   } catch (err) {
     console.error('Error in scrapeStats:', err);
-    return [];
+    return {
+      league: 'unknown',
+      stats: []
+    };
   }
 }
 
@@ -48,6 +55,14 @@ const PLAYER_STAT_VALUE_SELECTOR = '.heading-md span';
 const PLAYER_STAT_TYPE_SELECTOR = '.text-soClean-140 .break-words';
 const PLAYER_GAME_TIME_SELECTOR = 'time span.body-sm';
 const PLAYER_OPPONENT_SELECTOR = 'time span.text-soClean-100';
+
+// Add this function after the existing selectors
+const LEAGUE_BUTTON_SELECTOR = 'button.league-old[aria-selected="true"] .name';
+
+function getSelectedLeague() {
+  const leagueElement = document.querySelector(LEAGUE_BUTTON_SELECTOR);
+  return leagueElement?.textContent || 'unknown';
+}
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
